@@ -107,10 +107,10 @@
   });
 
   /* --- červík: občas vykoukne z velkého jablka --- */
-  var worm = $(".hero .worm");
+  var worm = $(".hero .worm"), hole = $(".hero .hole");
   if (worm && !calm) {
     var peek = function () {
-      worm.classList.remove("peek"); void worm.getBoundingClientRect(); worm.classList.add("peek");
+      [worm, hole].forEach(function (el) { if (!el) return; el.classList.remove("peek"); void el.getBoundingClientRect(); el.classList.add("peek"); });
       setTimeout(peek, 11000 + Math.random() * 9000);
     };
     setTimeout(peek, 3500 + Math.random() * 2500);

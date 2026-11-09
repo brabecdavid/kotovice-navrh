@@ -58,8 +58,8 @@ def apple(cls="", uid="a", color="red", worm=False):
 
 # červík, který občas vyleze z velkého jablka v úvodu (animace v CSS, načasování v app.js)
 WORM = '''<defs><clipPath id="dira"><rect x="96" y="20" width="70" height="98"/></clipPath></defs>
-<ellipse cx="131" cy="118" rx="9.5" ry="5" fill="#5A0F12"/>
-<path d="M121.6 118.6a9.5 5 0 0 0 18.8 0" stroke="#FF8A80" stroke-width="1.2" fill="none" opacity=".7"/>
+<g class="hole"><ellipse cx="131" cy="118" rx="9.5" ry="5" fill="#5A0F12"/>
+<path d="M121.6 118.6a9.5 5 0 0 0 18.8 0" stroke="#FF8A80" stroke-width="1.2" fill="none" opacity=".7"/></g>
 <g clip-path="url(#dira)"><g transform="translate(131 118)"><g class="worm">
   <g class="worm-body">
     <circle cx="0" cy="-1" r="6.4" fill="#9CC74A"/><circle cx=".8" cy="-8" r="6.4" fill="#B5D95E"/>
@@ -323,9 +323,9 @@ jablko = page_hero("Jablko", "Největší jablko v republice",
         <p>Na přibližně 70 let staré jabloni na zahradě v Kotovicích-Záluží vypěstoval Jiří Bárta ze Vsi Touškov jablko o hmotnosti <b>697 gramů</b> a obvodu <b>39 centimetrů</b>.</p>
         <p>Plod se dostal do České databanky rekordů Agentury Dobrý den, která provozuje Muzeum rekordů v Pelhřimově. Od té doby jsou Kotovice obcí s největším jablkem v&nbsp;republice.</p>
       </div>
-      <div class="ph"><div>{apple(uid="ph")}Sem patří fotka rekordního jablka<br><small style="font-weight:500">ideálně s pěstitelem nebo u jabloně</small></div></div>
+      <figure class="figure rekord-foto"><img src="img/foto/jablko-rekord.jpg" alt="Rekordní jablko ze Záluží s krejčovským metrem na hodnotě 39 cm" decoding="async"><figcaption>Obvod 39 centimetrů. Foto: <a href="https://www.dobryden.cz/" target="_blank" rel="noopener">Agentura Dobrý den</a></figcaption></figure>
     </div>
-    <div class="todo">Fotku vyžádat od pěstitele nebo od Agentury Dobrý den. Fotka z novinového článku patří agentuře a bez svolení ji použít nejde.</div>
+    <div class="todo">Před ostrým spuštěním si vyžádat od Agentury Dobrý den svolení k použití fotky na webu obce.</div>
     </section>
 
     <section id="cisla">

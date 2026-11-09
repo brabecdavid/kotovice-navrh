@@ -106,6 +106,16 @@
     }
   });
 
+  /* --- červík: občas vykoukne z velkého jablka --- */
+  var worm = $(".hero .worm");
+  if (worm && !calm) {
+    var peek = function () {
+      worm.classList.remove("peek"); void worm.getBoundingClientRect(); worm.classList.add("peek");
+      setTimeout(peek, 11000 + Math.random() * 9000);
+    };
+    setTimeout(peek, 3500 + Math.random() * 2500);
+  }
+
   /* --- galerie / lightbox --- */
   var gal = $$(".gallery button");
   if (gal.length) {

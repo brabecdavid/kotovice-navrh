@@ -387,3 +387,15 @@ footer.site .claim{font-family:var(--f-head);font-weight:600;color:#fff;margin:1
 .e404{min-height:60vh;display:grid;place-items:center;text-align:center;padding:60px 16px}
 .e404 svg{width:160px;margin:0 auto 10px}
 .e404 h1{font-size:clamp(2.4rem,7vw,4.4rem)}
+
+/* ---------- Červík v jablku ---------- */
+.worm{transform:translateY(46px);transform-box:fill-box;transform-origin:50% 100%}
+.worm.peek{animation:peek 5.2s cubic-bezier(.4,0,.2,1) both}
+.worm.peek .worm-body{animation:wiggle 5.2s ease-in-out both;transform-box:fill-box;transform-origin:50% 100%}
+.worm.peek .worm-pupils{animation:look 5.2s ease-in-out both}
+.worm.peek .worm-eyes{animation:blink 5.2s linear both;transform-box:fill-box;transform-origin:50% 50%}
+@keyframes peek{0%{transform:translateY(46px)}12%{transform:translateY(-2px)}16%{transform:translateY(0)}82%{transform:translateY(0)}100%{transform:translateY(46px)}}
+@keyframes wiggle{0%,18%{transform:rotate(0)}26%{transform:rotate(-9deg)}36%{transform:rotate(7deg)}46%{transform:rotate(-5deg)}56%,100%{transform:rotate(0)}}
+@keyframes look{0%,22%{transform:translateX(0)}30%,44%{transform:translateX(-1.2px)}52%,64%{transform:translateX(1.3px)}72%,100%{transform:translateX(0)}}
+@keyframes blink{0%,58%,62%,100%{transform:scaleY(1)}60%{transform:scaleY(.1)}}
+@media (prefers-reduced-motion:reduce){.worm.peek,.worm.peek *{animation:none}}

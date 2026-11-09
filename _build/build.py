@@ -43,7 +43,7 @@ COLORS = {
     "green": ("#C8EB72", "#7DB52F", "#3F7A1C"),
 }
 
-def apple(cls="", uid="a", color="red"):
+def apple(cls="", uid="a", color="red", worm=False):
     """Značka jablka – znak, ne ilustrace. Gradient generovaný na místě (unikátní id)."""
     c0, c1, c2 = COLORS[color]
     return f'''<svg class="{cls}" viewBox="0 0 200 200" aria-hidden="true"><defs>
@@ -54,7 +54,23 @@ def apple(cls="", uid="a", color="red"):
 <path fill="url(#l{uid})" d="M106 46c10-22 38-26 52-18-10 22-36 28-52 18Z"/>
 <path d="M110 43c14-6 26-10 40-13" stroke="#3F7420" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".7"/>
 <ellipse cx="64" cy="92" rx="10" ry="24" fill="#fff" opacity=".32" transform="rotate(22 64 92)"/>
-</svg>'''
+{WORM if worm else ""}</svg>'''
+
+# červík, který občas vyleze z velkého jablka v úvodu (animace v CSS, načasování v app.js)
+WORM = '''<defs><clipPath id="dira"><rect x="96" y="20" width="70" height="98"/></clipPath></defs>
+<ellipse cx="131" cy="118" rx="9.5" ry="5" fill="#5A0F12"/>
+<path d="M121.6 118.6a9.5 5 0 0 0 18.8 0" stroke="#FF8A80" stroke-width="1.2" fill="none" opacity=".7"/>
+<g clip-path="url(#dira)"><g transform="translate(131 118)"><g class="worm">
+  <g class="worm-body">
+    <circle cx="0" cy="-1" r="6.4" fill="#9CC74A"/><circle cx=".8" cy="-8" r="6.4" fill="#B5D95E"/>
+    <circle cx="1.8" cy="-15" r="6.4" fill="#9CC74A"/><circle cx="2.4" cy="-22" r="6.6" fill="#B5D95E"/>
+    <circle cx="2.6" cy="-30.5" r="8.2" fill="#C3E36B"/>
+    <ellipse cx="-2.2" cy="-27.4" rx="1.8" ry="1.2" fill="#FF8C8C" opacity=".8"/><ellipse cx="7.6" cy="-27.4" rx="1.8" ry="1.2" fill="#FF8C8C" opacity=".8"/>
+    <g class="worm-eyes"><circle cx="-.6" cy="-32.4" r="2.9" fill="#fff"/><circle cx="5.8" cy="-32.4" r="2.9" fill="#fff"/>
+      <g class="worm-pupils" fill="#1B241A"><circle cx="-.2" cy="-32.2" r="1.45"/><circle cx="6.2" cy="-32.2" r="1.45"/></g></g>
+    <path d="M.6 -27.2q2.1 2 4.2 0" stroke="#1B241A" stroke-width=".9" fill="none" stroke-linecap="round"/>
+  </g>
+</g></g></g>'''
 
 # malé ploché jablko místo písmene O v názvu
 APPLE_O = ('<svg class="o" viewBox="28 14 144 170" aria-hidden="true">'
@@ -214,7 +230,7 @@ index = f'''
     <button class="hero-apple" type="button" aria-label="Zatřást jabloní" title="Zatřeste jabloní">
       <svg class="stamp" viewBox="0 0 300 300" aria-hidden="true"><defs><path id="kruh" d="M150 150m-128 0a128 128 0 1 1 256 0a128 128 0 1 1-256 0"/></defs>
         <text><textPath href="#kruh">největší jablko v republice • jablkotovice • </textPath></text></svg>
-      {apple("apple", "hero")}
+      {apple("apple", "hero", worm=True)}
       <span class="badge-rec">Rekord<b>697 g</b>v ČR</span>
     </button>
   </div>

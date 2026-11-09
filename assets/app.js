@@ -32,10 +32,10 @@
   function row(r) {
     var p = r.od ? r.od.split("-") : ["", "1", "1"];
     var tags = '<span class="tag">' + esc(r.k) + "</span>";
-    if (isNew(r.od)) tags = '<span class="tag red">Nové</span>' + tags;
+    if (isNew(r.od)) tags = '<span class="tag red">Čerstvě utržené</span>' + tags;
     if (r.do) tags += '<span class="tag grey">sejmutí ' + cz(r.do) + "</span>";
     return '<li><a href="' + esc(r.u) + '" target="_blank" rel="noopener">' +
-      '<span class="date" aria-label="Vyvěšeno ' + cz(r.od) + '"><b>' + (+p[2] || "–") + "</b><small>" + (MES[+p[1] - 1] || "") + " " + (p[0] || "").slice(2) + "</small></span>" +
+      '<span class="date' + (isNew(r.od) ? " nove" : "") + '" aria-label="Vyvěšeno ' + cz(r.od) + '"><b>' + (+p[2] || "–") + "</b><small>" + (MES[+p[1] - 1] || "") + " " + (p[0] || "").slice(2) + "</small></span>" +
       '<span><span class="t">' + esc(r.t) + '</span><span class="meta">' + tags + "</span></span>" +
       '<span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li>';
   }
@@ -69,7 +69,7 @@
         if (nq && norm(r.t + " " + r.k).indexOf(nq) < 0) return false;
         return true;
       });
-      list.innerHTML = res.length ? res.slice(0, state.limit).map(row).join("") : '<li class="empty">Nic jsme nenašli. Zkuste jiné slovo nebo kategorii.</li>';
+      list.innerHTML = res.length ? res.slice(0, state.limit).map(row).join("") : '<li class="empty">Nic jsme nenašli – ani červíčka. Zkuste jiné slovo nebo kategorii.</li>';
       countEl.textContent = res.length + (res.length === 1 ? " dokument" : res.length < 5 && res.length ? " dokumenty" : " dokumentů");
       moreBtn.hidden = res.length <= state.limit;
     }
@@ -79,6 +79,32 @@
     moreBtn.addEventListener("click", function () { state.limit += 25; render(); });
     render();
   }
+
+  /* --- zatřes jabloní: po kliknutí na velké jablko se sesypou jablíčka --- */
+  var shaker = $(".hero-apple");
+  var APPLE = '<svg viewBox="28 14 144 170"><path d="M101 60c0-16 3-30 12-41" stroke="#5B3A1E" stroke-width="10" stroke-linecap="round" fill="none"/><path fill="COLOR" d="M100 58C82 44 44 44 33 82c-10 38 14 92 44 97 12 2 15-4 23-4s11 6 23 4c30-5 54-59 44-97-11-38-49-38-67-24Z"/><path fill="#4E8A22" d="M106 46c10-22 38-26 52-18-10 22-36 28-52 18Z"/><ellipse cx="64" cy="94" rx="11" ry="25" fill="#fff" opacity=".35" transform="rotate(22 64 94)"/></svg>';
+  var calm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (shaker) shaker.addEventListener("click", function () {
+    if (calm || !document.body.animate) return;
+    var H = window.innerHeight, W = window.innerWidth, n = W < 600 ? 14 : 26;
+    for (var i = 0; i < n; i++) {
+      (function (i) {
+        var el = document.createElement("div");
+        el.className = "falling";
+        var size = 28 + Math.random() * 30;
+        el.style.width = el.style.height = size + "px";
+        el.style.left = Math.random() * (W - size) + "px";
+        el.innerHTML = APPLE.replace("COLOR", Math.random() < .78 ? "#D7262E" : "#8BBF3F");
+        document.body.appendChild(el);
+        var rot = (Math.random() * 2 - 1) * 540, drift = (Math.random() * 2 - 1) * 60;
+        var a = el.animate([
+          { transform: "translate(0,0) rotate(0deg)" },
+          { transform: "translate(" + drift + "px," + (H + 120) + "px) rotate(" + rot + "deg)" }
+        ], { duration: 1300 + Math.random() * 900, delay: Math.random() * 600, easing: "cubic-bezier(.45,0,.9,.6)", fill: "forwards" });
+        a.onfinish = function () { el.remove(); };
+      })(i);
+    }
+  });
 
   /* --- galerie / lightbox --- */
   var gal = $$(".gallery button");

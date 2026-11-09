@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" aria-hidden="true"><defs>
 <radialGradient id="gfav" cx="38%" cy="34%" r="75%"><stop offset="0" stop-color="#FF6A5C"/><stop offset=".55" stop-color="#D7262E"/><stop offset="1" stop-color="#9E141B"/></radialGradient>
-<linearGradient id="lfav" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#5E9A2C"/><stop offset="1" stop-color="#9ED04C"/></linearGradient></defs>
+<linearGradient id="lfav" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4E8A22"/><stop offset="1" stop-color="#8FC544"/></linearGradient></defs>
 <path d="M101 60c0-16 3-30 12-41" stroke="#5B3A1E" stroke-width="8" stroke-linecap="round" fill="none"/>
 <path fill="url(#gfav)" d="M100 58C82 44 44 44 33 82c-10 38 14 92 44 97 12 2 15-4 23-4s11 6 23 4c30-5 54-59 44-97-11-38-49-38-67-24Z"/>
 <path fill="url(#lfav)" d="M106 46c10-22 38-26 52-18-10 22-36 28-52 18Z"/>

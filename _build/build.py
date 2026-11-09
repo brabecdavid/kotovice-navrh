@@ -38,11 +38,17 @@ def ico(name, cls=""):
 
 APPLE_BODY = "M100 58C82 44 44 44 33 82c-10 38 14 92 44 97 12 2 15-4 23-4s11 6 23 4c30-5 54-59 44-97-11-38-49-38-67-24Z"
 
-def apple(cls="", uid="a"):
+COLORS = {
+    "red": ("#FF6A5C", "#D7262E", "#9E141B"),
+    "green": ("#C8EB72", "#7DB52F", "#3F7A1C"),
+}
+
+def apple(cls="", uid="a", color="red"):
     """Značka jablka – znak, ne ilustrace. Gradient generovaný na místě (unikátní id)."""
+    c0, c1, c2 = COLORS[color]
     return f'''<svg class="{cls}" viewBox="0 0 200 200" aria-hidden="true"><defs>
-<radialGradient id="g{uid}" cx="38%" cy="34%" r="75%"><stop offset="0" stop-color="#FF6A5C"/><stop offset=".55" stop-color="#D7262E"/><stop offset="1" stop-color="#9E141B"/></radialGradient>
-<linearGradient id="l{uid}" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#5E9A2C"/><stop offset="1" stop-color="#9ED04C"/></linearGradient></defs>
+<radialGradient id="g{uid}" cx="38%" cy="34%" r="75%"><stop offset="0" stop-color="{c0}"/><stop offset=".55" stop-color="{c1}"/><stop offset="1" stop-color="{c2}"/></radialGradient>
+<linearGradient id="l{uid}" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4E8A22"/><stop offset="1" stop-color="#8FC544"/></linearGradient></defs>
 <path d="M101 60c0-16 3-30 12-41" stroke="#5B3A1E" stroke-width="8" stroke-linecap="round" fill="none"/>
 <path fill="url(#g{uid})" d="{APPLE_BODY}"/>
 <path fill="url(#l{uid})" d="M106 46c10-22 38-26 52-18-10 22-36 28-52 18Z"/>
@@ -50,7 +56,15 @@ def apple(cls="", uid="a"):
 <ellipse cx="64" cy="92" rx="10" ry="24" fill="#fff" opacity=".32" transform="rotate(22 64 92)"/>
 </svg>'''
 
-WM = '<span class="wm"><span class="j">Jabl</span><span class="k">kotovice</span></span>'
+# malé ploché jablko místo písmene O v názvu
+APPLE_O = ('<svg class="o" viewBox="28 14 144 170" aria-hidden="true">'
+           '<path d="M101 60c0-16 3-30 12-41" stroke="currentColor" stroke-width="11" stroke-linecap="round" fill="none"/>'
+           f'<path fill="var(--o-fill,#E8302F)" d="{APPLE_BODY}"/>'
+           '<path fill="var(--o-leaf,#7DB52F)" d="M106 46c10-22 38-26 52-18-10 22-36 28-52 18Z"/>'
+           '<ellipse cx="64" cy="94" rx="11" ry="25" fill="#fff" opacity=".35" transform="rotate(22 64 94)"/></svg>')
+
+WM = ('<span class="wm" role="img" aria-label="JablKOTOVICE"><span class="j">Jabl</span>'
+      f'<span class="k">K{APPLE_O}T{APPLE_O}VICE</span></span>')
 
 NAV = [
     ("index.html", "Úvod", ""),
@@ -90,6 +104,8 @@ def fig(name, wide=True):
     t, c = FOTO[name]
     return f'<figure class="figure">{img(name, big=wide)}<figcaption>{t}. {c}</figcaption></figure>'
 
+BASE = '<script>document.write(\'<base href="\' + (location.pathname.indexOf("/kotovice-navrh/") === 0 ? "/kotovice-navrh/" : "/") + \'">\')</script>'
+
 # ---------------------------------------------------------------- kostra stránky
 def page(fname, title, desc, body, extra_js=""):
     nav = "".join(
@@ -98,6 +114,7 @@ def page(fname, title, desc, body, extra_js=""):
 <html lang="cs">
 <head>
 <meta charset="utf-8">
+{BASE if fname == "404.html" else ""}
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">
@@ -155,7 +172,7 @@ def page(fname, title, desc, body, extra_js=""):
     </ul></div>
   </div>
   <div class="bottom"><div class="wrap">
-    <span>© 2026 Obec Kotovice · IČ 00574023</span>
+    <span>© 2026 Obec Kotovice · IČ 00574023 · Vypěstováno v Kotovicích</span>
     <span>Fotografie: Pavel Hrdlička a další autoři, Wikimedia Commons (CC BY-SA 4.0 / CC0) · Mapa © přispěvatelé OpenStreetMap</span>
   </div></div>
 </footer>
@@ -188,32 +205,32 @@ index = f'''
       <span class="eyebrow">Kotovice · Nový · Záluží</span>
       <h1>{WM}</h1>
       <p class="sub">obec s <mark>největším jablkem</mark> v&nbsp;republice</p>
-      <p class="lead">Tři vesnice na západním okraji Plzeňské kotliny, 17 km od Plzně. První zmínka 1272, barokní dvůr Gigant, lípa stará přes 350 let – a největší jablko v republice.</p>
+      <p class="lead">Tři vesnice na západním okraji Plzeňské kotliny, 17 km od Plzně. Historie od roku 1272, barokní dvůr Gigant, lípa stará přes 350 let – a v Záluží dozrálo rekordní jablko o váze 697 gramů.</p>
       <div class="ctas">
-        <a class="btn btn-red" href="jablko.html">Poznejte naše jablko {ico("arrow")}</a>
+        <a class="btn btn-red" href="jablko.html">Kousněte do rekordu {ico("arrow")}</a>
         <a class="btn btn-ghost-light" href="uredni-deska.html">Úřední deska</a>
       </div>
     </div>
-    <div class="hero-apple">
+    <button class="hero-apple" type="button" aria-label="Zatřást jabloní" title="Zatřeste jabloní">
       <svg class="stamp" viewBox="0 0 300 300" aria-hidden="true"><defs><path id="kruh" d="M150 150m-128 0a128 128 0 1 1 256 0a128 128 0 1 1-256 0"/></defs>
         <text><textPath href="#kruh">největší jablko v republice • jablkotovice • </textPath></text></svg>
       {apple("apple", "hero")}
-      <div class="badge-rec">Rekord<b>č. 1</b>v ČR</div>
-    </div>
+      <span class="badge-rec">Rekord<b>697 g</b>v ČR</span>
+    </button>
   </div>
   <span class="credit">Kotovice, rybník na návsi · foto Pavel Hrdlička, CC BY-SA 4.0</span>
 </section>
 
-<div class="quick wrap"><ul>
-  <li><a href="uredni-deska.html"><span class="qi">{ico("board")}</span><span><b>Úřední deska</b><span>Vyhlášky, usnesení, rozpočty</span></span></a></li>
-  <li><a href="jablko.html"><span class="qi">{ico("leaf")}</span><span><b>Největší jablko</b><span>Kde ho najdete a jak vzniklo</span></span></a></li>
-  <li><a href="urad.html"><span class="qi">{ico("clock")}</span><span><b>Úřad a hodiny</b><span>Po a St 8:00 – 17:00</span></span></a></li>
-  <li><a href="kontakt.html"><span class="qi">{ico("phone")}</span><span><b>Kontakt a platby</b><span>Telefon, e-mail, číslo účtu</span></span></a></li>
+<div class="quick wrap"><ul class="bite-wrap">
+  <li><a class="bite" href="uredni-deska.html"><span class="qi">{ico("board")}</span><span><b>Úřední deska</b><span>Vyhlášky, usnesení, rozpočty</span></span></a></li>
+  <li><a class="bite" href="jablko.html"><span class="qi">{ico("leaf")}</span><span><b>Rekordní jablko</b><span>697 gramů a zápis v knize rekordů</span></span></a></li>
+  <li><a class="bite" href="urad.html"><span class="qi">{ico("clock")}</span><span><b>Úřad a hodiny</b><span>Po a St 8:00 – 17:00</span></span></a></li>
+  <li><a class="bite" href="kontakt.html"><span class="qi">{ico("phone")}</span><span><b>Kontakt a platby</b><span>Telefon, e-mail, číslo účtu</span></span></a></li>
 </ul></div>
 
 <section class="s"><div class="wrap grid-2">
   <div>
-    <div class="s-head"><div><div class="kicker">{ico("board")} Z úřední desky</div><h2>Co je nového</h2></div>
+    <div class="s-head"><div><div class="kicker green">{ico("board")} Z úřední desky</div><h2>Čerstvě utržené</h2></div>
       <a class="btn btn-ghost" href="uredni-deska.html">Celá deska {ico("arrow")}</a></div>
     <div class="board"><ol class="dl" data-deska-latest="6"><li class="empty"><a href="uredni-deska.html">Otevřít úřední desku</a></li></ol></div>
   </div>
@@ -221,40 +238,40 @@ index = f'''
     <h3>{ico("clock")} Úřední hodiny</h3>
     <span class="open-now" data-open-now><i></i>Úřední hodiny</span>
     {HOURS}
-    <a class="btn btn-red" href="kontakt.html" style="width:100%;justify-content:center">Kontakty na úřad</a>
+    <a class="btn btn-green" href="kontakt.html" style="width:100%;justify-content:center">Kontakty na úřad</a>
   </aside>
 </div></section>
 
 <section class="apple-band"><div class="wrap">
   {apple("apple-big", "band")}
   <div>
-    <div class="kicker">Chlouba obce</div>
-    <h2>Největší jablko v republice máme my</h2>
-    <p>Zastavte se u něj, vyfoťte se a pošlete fotku dál – ať se ví, kde je největší jablko v Česku.</p>
+    <div class="kicker">Rekord ze Záluží</div>
+    <h2>697 gramů. Největší jablko v&nbsp;republice vyrostlo u&nbsp;nás.</h2>
+    <p>Na zhruba sedmdesátileté jabloni na zahradě v Záluží dozrálo jablko s obvodem 39 centimetrů. Zapsalo se do České databanky rekordů a loňský rekord překonalo o 83 gramů.</p>
     <div class="ctas" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
-      <a class="btn btn-light" href="jablko.html">Všechno o jablku {ico("arrow")}</a>
-      <a class="btn btn-ghost-light" href="kontakt.html#mapa">Jak k nám dojet</a>
+      <a class="btn btn-light" href="jablko.html">Celý příběh jablka {ico("arrow")}</a>
+      <a class="btn btn-ghost-light" href="jablko.html#velikost">Jak je velké?</a>
     </div>
   </div>
 </div></section>
 
 <section class="s"><div class="wrap">
-  <div class="s-head"><div><div class="kicker">{ico("home")} Tři vesnice, jedna obec</div><h2>Kotovice, Nový a Záluží</h2></div>
-    <p>Od roku 1991 je spravuje společný obecní úřad v Kotovicích. Dohromady 977 hektarů polí, sadů, rybníků a návsí.</p></div>
-  <div class="villages">
-    <a class="village" href="obec.html#kotovice">{img("kotovice-kaple")}<span class="pill">od roku 1272</span><div class="in"><h3>Kotovice</h3><p>Typická náves, kaple se zvoničkou z roku 1895 a obecní úřad.</p></div></a>
-    <a class="village" href="obec.html#novy">{img("novy-kaple")}<span class="pill">od roku 1828</span><div class="in"><h3>Nový</h3><p>Unikátně dochovaná náves, kulturní dům a rybník Kravský.</p></div></a>
-    <a class="village" href="obec.html#zaluzi">{img("zaluzi-gigant")}<span class="pill">dvůr Gigant</span><div class="in"><h3>Záluží</h3><p>Barokní dvůr Gigant, památná lípa a socha Immaculaty z roku 1737.</p></div></a>
+  <div class="s-head"><div><div class="kicker">{ico("home")} Tři jablka z jednoho stromu</div><h2>Kotovice, Nový a Záluží</h2></div>
+    <p>Od roku 1991 je spravuje společný obecní úřad v Kotovicích. Dohromady 977 hektarů a tři návsi, každá s vlastní kaplí.</p></div>
+  <div class="villages bite-wrap">
+    <a class="village bite" href="obec.html#kotovice">{img("kotovice-kaple")}<span class="pill">od roku 1272</span><div class="in"><h3>Kotovice</h3><p>Typická náves, kaple se zvoničkou z roku 1895 a obecní úřad.</p></div></a>
+    <a class="village bite" href="obec.html#novy">{img("novy-kaple")}<span class="pill">od roku 1828</span><div class="in"><h3>Nový</h3><p>Unikátně dochovaná náves, kulturní dům a rybník Kravský.</p></div></a>
+    <a class="village bite" href="obec.html#zaluzi">{img("zaluzi-gigant")}<span class="pill">dvůr Gigant</span><div class="in"><h3>Záluží</h3><p>Barokní dvůr Gigant, památná lípa – a zahrada s rekordní jabloní.</p></div></a>
   </div>
 </div></section>
 
 <section class="s" style="padding-top:0"><div class="wrap">
-  <div class="stats">
-    <div class="stat"><b>1272</b><span>první písemná zmínka o obci</span></div>
-    <div class="stat"><b>977 ha</b><span>rozloha katastru tří vesnic</span></div>
-    <div class="stat"><b>270</b><span>obyvatel podle obecních stránek</span></div>
-    <div class="stat"><b>360 let</b><span>stáří památné lípy u dvora Gigant</span></div>
-    <div class="stat"><b>1</b><span>největší jablko v&nbsp;republice</span></div>
+  <div class="stats bite-wrap">
+    <div class="stat bite"><b>1272</b><span>první písemná zmínka o obci</span></div>
+    <div class="stat bite"><b>977 ha</b><span>rozloha katastru tří vesnic</span></div>
+    <div class="stat bite"><b>270</b><span>obyvatel podle obecních stránek</span></div>
+    <div class="stat bite"><b>360 let</b><span>stáří památné lípy u dvora Gigant</span></div>
+    <div class="stat bite"><b>697 g</b><span>váha rekordního jablka ze Záluží</span></div>
   </div>
 </div></section>
 
@@ -271,58 +288,70 @@ index = f'''
 </div></section>
 '''
 page("index.html", "JablKOTOVICE – obec s největším jablkem v republice",
-     "Návrh webu obce Kotovice (Kotovice, Nový, Záluží) – úřední deska, úřad, život v obci a největší jablko v republice.", index,
+     "Návrh webu obce Kotovice (Kotovice, Nový, Záluží) – úřední deska, úřad, život v obci a rekordní jablko o váze 697 gramů.", index,
      '<script src="assets/deska.js"></script>\n')
 
 # ================================================================ JABLKO
+small_apple = lambda c, u: apple("", u, c)
 jablko = page_hero("Jablko", "Největší jablko v republice",
-    "Symbol, na který jsme v Kotovicích pyšní. Tady najdete všechno o tom, kde stojí, jak vzniklo a jak se u něj nejlíp vyfotit.", red=True, art=apple("art", "ph1")) + f'''
+    "697 gramů, obvod 39 centimetrů. Rekordní jablko vyrostlo na zahradě v Záluží a má svůj zápis v České databance rekordů.", red=True, art=apple("art", "ph1")) + f'''
 <div class="wrap layout">
   <nav class="subnav" aria-label="Na této stránce"><ul>
-    <li><a href="#jablko">Jablko</a></li><li><a href="#cisla">V číslech</a></li>
-    <li><a href="#pribeh">Příběh</a></li><li><a href="#navsteva">Návštěva</a></li></ul></nav>
+    <li><a href="#rekord">Rekord</a></li><li><a href="#cisla">V číslech</a></li>
+    <li><a href="#velikost">Skutečná velikost</a></li><li><a href="#pribeh">Příběh</a></li><li><a href="#psali">Psali o nás</a></li></ul></nav>
   <div class="prose">
-    <section id="jablko"><div class="split">
+    <section id="rekord"><div class="split">
       <div>
-        <div class="kicker">Chlouba JablKOTOVIC</div>
-        <h2>Jablko, které nepřehlédnete</h2>
-        <p>Kotovice jsou obcí s největším jablkem v&nbsp;republice. Plastika jablka je chloubou obce.</p>
-        <div class="todo">Doplnit krátký popis plastiky – z čeho je, kde přesně stojí a kdo ji vyrobil.</div>
+        <div class="kicker">Rekord ze Záluží</div>
+        <h2>Jablko, které vytáhlo váhu</h2>
+        <p>Na přibližně 70 let staré jabloni na zahradě v Kotovicích-Záluží vypěstoval Jiří Bárta ze Vsi Touškov jablko o hmotnosti <b>697 gramů</b> a obvodu <b>39 centimetrů</b>.</p>
+        <p>Plod se dostal do České databanky rekordů Agentury Dobrý den, která provozuje Muzeum rekordů v Pelhřimově. Od té doby jsou Kotovice obcí s největším jablkem v&nbsp;republice.</p>
       </div>
-      <div class="ph"><div>{apple(uid="ph")}Sem patří velká fotka jablka<br><small style="font-weight:500">ideálně na šířku, aspoň 1800 px</small></div></div>
-    </div></section>
+      <div class="ph"><div>{apple(uid="ph")}Sem patří fotka rekordního jablka<br><small style="font-weight:500">ideálně s pěstitelem nebo u jabloně</small></div></div>
+    </div>
+    <div class="todo">Fotku vyžádat od pěstitele nebo od Agentury Dobrý den. Fotka z novinového článku patří agentuře a bez svolení ji použít nejde.</div>
+    </section>
 
     <section id="cisla">
       <h2>Jablko v číslech</h2>
       <div class="facts">
-        <div><b>? m</b><span>výška</span></div>
-        <div><b>? m</b><span>průměr</span></div>
-        <div><b>? kg</b><span>hmotnost</span></div>
-        <div><b>????</b><span>rok vzniku</span></div>
+        <div><b>697 g</b><span>hmotnost jablka</span></div>
+        <div><b>39 cm</b><span>obvod jablka</span></div>
+        <div><b>~70 let</b><span>stáří jabloně</span></div>
+        <div><b>+83 g</b><span>oproti loňskému rekordu</span></div>
       </div>
-      <div class="todo">Doplnit skutečné rozměry a rok. Čísla, která nemáme ověřená, na web nedáváme.</div>
+      <p>Na váze by ho vyvážila zhruba čtyři běžná jablka z obchodu.</p>
+      <div class="compare" aria-hidden="true">{small_apple("red","c0")}<span class="eq">=</span>{small_apple("green","c1")}{small_apple("green","c2")}{small_apple("green","c3")}{small_apple("green","c4")}</div>
+    </section>
+
+    <section id="velikost">
+      <h2>Ve skutečné velikosti</h2>
+      <div class="real">
+        <div>
+          <p>Kdyby bylo jablko dokonale kulaté, mělo by při obvodu 39 cm průměr asi <b>12,4 centimetru</b>. Přesně tak široké je jablko níže – přiložte k obrazovce jablko z kuchyně a porovnejte.</p>
+          <p style="color:var(--muted);font-size:.92rem">Na většině obrazovek odpovídá velikost přibližně, na mobilu se jablko zmenší, aby se vešlo.</p>
+        </div>
+        {apple(uid="real").replace('viewBox="0 0 200 200"', 'viewBox="0 0 200 222"').replace("</svg>", '<g stroke="#A9161E" stroke-width="1.4" fill="none"><path d="M33 200h134" stroke-dasharray="3 3"/><path d="M33 194v12M167 194v12"/></g><text x="100" y="217" text-anchor="middle" font-family="Figtree,sans-serif" font-weight="700" font-size="9" fill="#A9161E">průměr ≈ 12,4 cm</text></svg>')}
+      </div>
     </section>
 
     <section id="pribeh">
-      <h2>Jak jablko vzniklo</h2>
-      <div class="todo">Doplnit příběh: kdo přišel s nápadem, kdo jablko vyrobil, kdy bylo odhaleno. Hodí se i stará fotka z odhalení.</div>
+      <h2>Jak se rodí rekord</h2>
+      <p>Rekord převzalo jablko ze Záluží od Pavla Šustra ze Všejan na Mladoboleslavsku, jehož loňské jablko bylo o 83 gramů lehčí.</p>
+      <div class="todo">Doplnit od pěstitele: odrůdu, kdy jablko utrhl a jak se o jabloň stará. A zeptat se, jestli souhlasí se zveřejněním jména a fotky na webu obce.</div>
     </section>
 
-    <section id="navsteva">
-      <h2>Přijeďte se podívat</h2>
-      <ul class="ticks">
-        <li>Jablko je přístupné po celý rok, zdarma.</li>
-        <li>Parkovat můžete na návsi – prosíme, nestavte auta do vjezdů.</li>
-        <li>Vyfoťte se a označte fotku <b>#jablkotovice</b>.</li>
-        <li>Po cestě se zastavte i u dvora Gigant a památné lípy v Záluží.</li>
-      </ul>
-      <div class="todo">Ověřit: přístupnost celoročně, místo k parkování a hashtag.</div>
-      <div class="map" style="min-height:320px;margin-top:20px">{MAP}</div>
+    <section id="psali">
+      <h2>Psali o nás</h2>
+      <a class="press" href="https://plzenska.drbna.cz/zpravy/904876-sedmdesatileta-jablon-vyplodila-obri-jablko-je-z-toho-zapis-v-knize-rekordu.html" target="_blank" rel="noopener">
+        <span class="src">{ico("doc")}</span>
+        <span><b>Sedmdesátiletá jabloň vyplodila obří jablko. Je z toho zápis v knize rekordů</b><small>Plzeňská Drbna · Zuzana Pešková · 6. 11. 2026</small></span></a>
+      <p style="margin-top:16px"><a href="https://www.dobryden.cz/" target="_blank" rel="noopener">Agentura Dobrý den – Česká databanka rekordů</a></p>
     </section>
   </div>
 </div>'''
 page("jablko.html", "Největší jablko v republice – JablKOTOVICE",
-     "Kotovice – obec s největším jablkem v republice. Kde jablko najdete, jak vzniklo a jak se u něj vyfotit.", jablko)
+     "Rekordní jablko ze Záluží: 697 gramů, obvod 39 cm, zápis v České databance rekordů.", jablko)
 
 # ================================================================ OBEC
 obec = page_hero("Obec", "Obec a její historie",
@@ -378,6 +407,7 @@ obec = page_hero("Obec", "Obec a její historie",
         <li><b>Malá zděná kaplička</b> a vedle ní <b>socha Panny Marie – Immaculata</b> z roku 1737 na hranolovém soklu.</li>
         <li><b>Hasičská zbrojnice</b> se čtyřbokou věží.</li>
         <li><b>Vodní plocha</b> vzniklá zatopením pískového lomu na jižní straně vsi – chov ryb a rekreace.</li>
+        <li><b>Zahrada s rekordní jabloní</b> – na zhruba sedmdesátileté jabloni tu dozrálo jablko o váze 697 gramů, zapsané v České databance rekordů. <a href="jablko.html">Více o jablku</a></li>
       </ul>
     </section>
 
@@ -400,7 +430,7 @@ page("obec.html", "Obec a historie – JablKOTOVICE",
 
 # ================================================================ ÚŘEDNÍ DESKA
 deska = page_hero("Úřední deska", "Úřední deska",
-    "Všechny vyhlášky, usnesení zastupitelstva, rozpočty a oznámení na jednom místě. Hledejte slovem nebo filtrujte podle kategorie.", bg="kotovice-urad") + f'''
+    "Všechny vyhlášky, usnesení zastupitelstva, rozpočty a oznámení na jednom místě. Hledejte slovem nebo filtrujte podle kategorie.", bg="kotovice-urad", art=apple("art", "ud", "green")) + f'''
 <div class="wrap" style="padding-top:50px;padding-bottom:90px" data-deska>
   <div class="filters">
     <label class="search" for="q">{ico("search")}<span class="sr">Hledat na úřední desce</span>
@@ -409,7 +439,7 @@ deska = page_hero("Úřední deska", "Úřední deska",
     <div class="f-row"><span data-count></span>
       <span class="seg" role="group" aria-label="Zobrazit"><button data-mode="aktualni" aria-pressed="true">Aktuální</button><button data-mode="archiv" aria-pressed="false">Archiv</button><button data-mode="vse" aria-pressed="false">Vše</button></span></div>
   </div>
-  <div class="board"><ol class="dl"></ol><div class="more"><button class="btn btn-ghost" data-more hidden>Načíst další</button></div></div>
+  <div class="board"><ol class="dl"></ol><div class="more"><button class="btn btn-ghost" data-more hidden>Utrhnout další</button></div></div>
   <noscript><p>Pro filtrování zapněte JavaScript. Úplný seznam je na <a href="{ORIG}/urad-obce/uredni-deska/">původní úřední desce</a>.</p></noscript>
   <p style="color:var(--muted);font-size:.9rem;margin-top:18px">Dokumenty se otevírají v plném znění na serveru obce. Fyzická úřední deska je u obecního úřadu, Kotovice 22.</p>
 </div>'''
@@ -422,7 +452,7 @@ def doc(href, title, note=""):
     return f'<li><a href="{href}" target="_blank" rel="noopener"><span class="pdf">PDF</span><span>{title}{f"<small>{note}</small>" if note else ""}</span></a></li>'
 
 urad = page_hero("Úřad", "Obecní úřad",
-    "Úřední hodiny, povinné informace, e-podatelna, územní plán a dokumenty ke stažení.", bg="kotovice-urad") + f'''
+    "Úřední hodiny, povinné informace, e-podatelna, územní plán a dokumenty ke stažení.", bg="kotovice-urad", art=apple("art", "ur", "green")) + f'''
 <div class="wrap layout">
   <nav class="subnav" aria-label="Na této stránce"><ul>
     <li><a href="#hodiny">Úřední hodiny</a></li><li><a href="#vedeni">Vedení obce</a></li><li><a href="#dokumenty">Dokumenty</a></li>
@@ -543,14 +573,14 @@ def club(icon, name, text):
     return f'<div class="club"><span class="ic">{ico(icon)}</span><h3>{name}</h3><p>{text}</p></div>'
 
 zivot = page_hero("Život v obci", "Život v obci",
-    "Spolky, akce, kde si co zařídit a fotky ze všech tří vesnic.", bg="novy-naves-2") + f'''
+    "Kde to v Kotovicích, Novém a Záluží žije: spolky, akce, služby a fotky ze všech tří vesnic.", bg="novy-naves-2") + f'''
 <div class="wrap layout">
   <nav class="subnav" aria-label="Na této stránce"><ul>
     <li><a href="#akce">Akce v roce</a></li><li><a href="#spolky">Spolky</a></li><li><a href="#sluzby">Služby</a></li>
     <li><a href="#odpady">Odpady</a></li><li><a href="#galerie">Fotogalerie</a></li></ul></nav>
   <div class="prose">
     <section id="akce">
-      <h2>Akce v roce</h2>
+      <h2>Akce po celý rok – od bálu po nadílku</h2>
       <p>Obec, hasiči a spolky pořádají akce pro děti i dospělé. Pozvánky vyvěšujeme na <a href="uredni-deska.html?kat=Oznámení">úřední desce</a>.</p>
       <div class="year">
         <div><small>zima</small><b>Hasičský bál</b>SDH v kulturním domě Nový</div>
@@ -604,7 +634,7 @@ page("zivot.html", "Život v obci – JablKOTOVICE",
 
 # ================================================================ KONTAKT
 kontakt = page_hero("Kontakt", "Kontakt",
-    "Obecní úřad Kotovice – zavolejte, napište nebo se zastavte v úředních hodinách.", bg="kotovice-ulice") + f'''
+    "Zavolejte, napište, nebo se zastavte v úředních hodinách. Na úřadě nekoušeme – to necháváme jablkům.", bg="kotovice-ulice") + f'''
 <div class="wrap" style="padding-top:50px;padding-bottom:30px">
   <div class="contact-grid">
     <div class="card"><div class="label">Telefon na úřad</div><a class="big-link" href="tel:+420377880004">377 880 004</a>
@@ -635,6 +665,19 @@ kontakt = page_hero("Kontakt", "Kontakt",
 <div class="wrap" id="mapa" style="padding-bottom:90px;scroll-margin-top:100px"><div class="map" style="min-height:420px">{MAP}</div></div>'''
 page("kontakt.html", "Kontakt – Obec Kotovice",
      "Kontakty na obecní úřad Kotovice – telefon, e-mail, datová schránka, číslo účtu, úřední hodiny a mapa.", kontakt)
+
+# ================================================================ 404
+e404 = f'''<section class="e404"><div>
+  <svg viewBox="0 0 200 200" aria-hidden="true"><path d="M101 40c0-12 3-22 10-30" stroke="#5B3A1E" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path fill="#D7262E" d="M100 42c-22-10-52-6-56 22 30 0 42 10 56 10s26-10 56-10c-4-28-34-32-56-22Z"/>
+  <path fill="#F6E7C8" d="M62 74c8 18 8 40 0 62h76c-8-22-8-44 0-62-12 4-24 6-38 6s-26-2-38-6Z"/>
+  <path fill="#D7262E" d="M44 136c4 30 34 36 56 28 22 8 52 2 56-28-30 0-42-6-56-6s-26 6-56 6Z"/>
+  <g fill="#5B3A1E"><ellipse cx="92" cy="104" rx="3" ry="6"/><ellipse cx="108" cy="104" rx="3" ry="6"/></g></svg>
+  <h1>Tady zbyl jen ohryzek</h1>
+  <p style="color:var(--muted);font-size:1.1rem;max-width:44ch;margin:0 auto 24px">Stránka, kterou hledáte, už někdo snědl – nebo nikdy nedozrála. Zkuste to z úvodu.</p>
+  <a class="btn btn-red" href="index.html">Zpět na úvod {ico("arrow")}</a>
+</div></section>'''
+page("404.html", "Stránka nenalezena – JablKOTOVICE", "Tato stránka neexistuje.", e404)
 
 # favicon
 (ROOT / "img" / "jablko.svg").write_text(apple(uid="fav").replace('<svg class=""', '<svg xmlns="http://www.w3.org/2000/svg"'), encoding="utf-8")

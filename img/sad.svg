@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="130" viewBox="0 0 360 130">
+  <!-- jabloňový sad – dlaždice opakovaná nad patičkou -->
+  <path fill="#1E4A2A" d="M0 104c40-10 80-12 120-4s80 10 120 2 80-10 120-2v30H0z"/>
+  <!-- strom 1 -->
+  <path d="M60 112V78" stroke="#5B3A1E" stroke-width="7" stroke-linecap="round"/>
+  <path d="M60 92 48 80M60 88l12-10" stroke="#5B3A1E" stroke-width="4" stroke-linecap="round"/>
+  <g fill="#2E6B3A"><circle cx="44" cy="62" r="20"/><circle cx="76" cy="60" r="21"/><circle cx="60" cy="44" r="22"/><circle cx="60" cy="70" r="18"/></g>
+  <g fill="#3E8248"><circle cx="54" cy="40" r="12"/><circle cx="72" cy="52" r="10"/></g>
+  <g fill="#D7262E"><circle cx="46" cy="58" r="4.2"/><circle cx="70" cy="44" r="4.2"/><circle cx="80" cy="66" r="4.2"/><circle cx="58" cy="72" r="4.2"/><circle cx="62" cy="34" r="3.8"/><circle cx="38" cy="72" r="3.8"/></g>
+  <!-- strom 2 (menší) -->
+  <path d="M170 114V90" stroke="#5B3A1E" stroke-width="6" stroke-linecap="round"/>
+  <g fill="#3E8248"><circle cx="158" cy="78" r="15"/><circle cx="182" cy="78" r="15"/><circle cx="170" cy="64" r="17"/></g>
+  <g fill="#8BBF3F"><circle cx="164" cy="60" r="8"/></g>
+  <g fill="#D7262E"><circle cx="160" cy="80" r="3.6"/><circle cx="178" cy="66" r="3.6"/><circle cx="186" cy="84" r="3.6"/><circle cx="170" cy="76" r="3.4"/></g>
+  <!-- strom 3 -->
+  <path d="M280 110V74" stroke="#5B3A1E" stroke-width="7" stroke-linecap="round"/>
+  <path d="M280 90l-13-9" stroke="#5B3A1E" stroke-width="4" stroke-linecap="round"/>
+  <g fill="#2E6B3A"><circle cx="262" cy="58" r="21"/><circle cx="298" cy="58" r="20"/><circle cx="280" cy="38" r="23"/><circle cx="280" cy="66" r="18"/></g>
+  <g fill="#3E8248"><circle cx="270" cy="34" r="12"/><circle cx="296" cy="48" r="9"/></g>
+  <g fill="#D7262E"><circle cx="266" cy="52" r="4.2"/><circle cx="290" cy="36" r="4.2"/><circle cx="302" cy="64" r="4.2"/><circle cx="276" cy="70" r="4.2"/><circle cx="256" cy="66" r="3.8"/></g>
+  <!-- spadlá jablíčka v trávě -->
+  <g fill="#D7262E"><circle cx="92" cy="110" r="3.6"/><circle cx="214" cy="112" r="3.4"/><circle cx="318" cy="108" r="3.6"/></g>
+  <path fill="#15361F" d="M0 116c60-6 120-8 180-2s120 6 180 0v14H0z"/>
+</svg>
